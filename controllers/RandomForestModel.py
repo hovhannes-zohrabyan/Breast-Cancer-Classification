@@ -16,6 +16,10 @@ class RandomForestModel:
     def print_accuracy(self):
         X_test, y_test = self.dataset.get_test_data()
         print(self.clf.score(X_test, y_test))
+    #     TODO: Add ROC AUC curves
+
+    def predict(self, data):
+        return self.clf.predict(data)
 
     def get_model(self):
         return self.clf
