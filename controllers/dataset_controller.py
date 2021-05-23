@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+
 class DatasetController:
 
     X_train, X_test, y_train, y_test = None, None, None, None
@@ -10,6 +11,9 @@ class DatasetController:
             self.df = pd.read_csv('../Data/breast_cancer.csv')
         except FileNotFoundError:
             exit("Dataset not found, exiting the program")
+
+        self.data_cleaning()
+        self.train_test_split()
 
     def data_cleaning(self):
         df = self.df.drop(['id', 'Unnamed: 32'], axis=1)
