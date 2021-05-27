@@ -8,7 +8,7 @@ class DatasetController:
 
     def __init__(self):
         try:
-            self.df = pd.read_csv('../Data/breast_cancer.csv')
+            self.df = pd.read_csv('Data/breast_cancer.csv')
         except FileNotFoundError:
             exit("Dataset not found, exiting the program")
 
