@@ -1,4 +1,5 @@
 from sklearn.ensemble import RandomForestClassifier
+from datetime import datetime
 
 from controllers.dataset_controller import DatasetController
 from controllers.file_controller import LocalDataController
@@ -16,6 +17,7 @@ class RandomForestModel:
             print("Model is not trained, please train it")
 
     def train_model(self):
+        print("Model training started at ", datetime.now())
         self.clf = RandomForestClassifier(max_depth=2, random_state=0)
         X_train, y_train = self.dataset.get_train_data()
         self.clf.fit(X_train, y_train)
