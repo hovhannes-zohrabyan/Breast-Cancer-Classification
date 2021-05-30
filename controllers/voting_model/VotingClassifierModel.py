@@ -24,13 +24,15 @@ class VotingModel:
 
     def train_model(self):
         print("Model training started at ", datetime.now())
+        X_train, y_train = self.dataset.get_train_data()
         clf_1 = LogisticRegression(multi_class='multinomial', random_state=1)
         clf_2 = RandomForestClassifier(n_estimators=50, random_state=1)
         clf_3 = GaussianNB()
         self.clf = VotingClassifier(estimators=[
-            ('LRegression', clf_1), ('Rforest', clf_2), ('GBayes', clf_3)],
-            voting='soft', weights=[1, 2, 1],
+            ('Rforest', clf_2), ('GBayes', clf_3)],
+            voting='soft', weights=[2, 1],
             flatten_transform=True)
+        self.clf.fit(X_train, y_train)
         self.local_data_controller.save_data_pickle('models', 'RandomForest', self.clf)
 
     def print_accuracy(self):
