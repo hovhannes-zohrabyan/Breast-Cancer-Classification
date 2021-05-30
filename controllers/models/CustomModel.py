@@ -7,13 +7,13 @@ from controllers.dataset_controller import DatasetController
 from controllers.file_controller import LocalDataController
 
 
-class RandomForestModel:
+class CustomModel:
 
-    def __init__(self):
+    def __init__(self, name, model):
         self.dataset = DatasetController()
         self.local_data_controller = LocalDataController()
         try:
-            self.clf = self.local_data_controller.read_data_pickle('models', 'RandomForest')
+            self.clf = self.local_data_controller.read_data_pickle('models', name)
             print('Model is already trained, do not train it')
         except FileNotFoundError:
             print("Model is not trained, starting training")

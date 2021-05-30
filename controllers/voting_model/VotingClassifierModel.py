@@ -1,13 +1,16 @@
-from sklearn.ensemble import RandomForestClassifier
-from datetime import datetime
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import GaussianNB
+from sklearn.ensemble import RandomForestClassifier, VotingClassifier
 import matplotlib.pyplot as plt
 from sklearn import metrics
+from datetime import datetime
+
 
 from controllers.dataset_controller import DatasetController
 from controllers.file_controller import LocalDataController
 
 
-class RandomForestModel:
+class VotingModel:
 
     def __init__(self):
         self.dataset = DatasetController()
@@ -21,9 +24,13 @@ class RandomForestModel:
 
     def train_model(self):
         print("Model training started at ", datetime.now())
-        self.clf = RandomForestClassifier(max_depth=2, random_state=0)
-        X_train, y_train = self.dataset.get_train_data()
-        self.clf.fit(X_train, y_train)
+        clf_1 = LogisticRegression(multi_class='multinomial', random_state=1)
+        clf_2 = RandomForestClassifier(n_estimators=50, random_state=1)
+        clf_3 = GaussianNB()
+        self.clf = VotingClassifier(estimators=[
+            ('LRegression', clf_1), ('Rforest', clf_2), ('GBayes', clf_3)],
+            voting='soft', weights=[1, 2, 1],
+            flatten_transform=True)
         self.local_data_controller.save_data_pickle('models', 'RandomForest', self.clf)
 
     def print_accuracy(self):
