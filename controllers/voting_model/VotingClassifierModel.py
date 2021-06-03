@@ -37,7 +37,9 @@ class VotingModel:
 
     def print_accuracy(self):
         X_test, y_test = self.dataset.get_test_data()
-        print(self.clf.score(X_test, y_test))
+        print('Accuracy for Random Forest Model', self.clf.score(X_test, y_test), sep='\n')
+        print('Confusion Matrix for Random Forest Model', metrics.confusion_matrix(y_test, self.clf.predict(X_test)),
+              sep='\n')
         metrics.plot_roc_curve(self.clf, X_test, y_test)
         plt.show()
 
