@@ -1,9 +1,9 @@
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 
 
 class DatasetController:
-
     X_train, X_test, y_train, y_test = None, None, None, None
 
     def __init__(self):
@@ -17,8 +17,20 @@ class DatasetController:
 
     def data_cleaning(self):
         df = self.df.drop(['id', 'Unnamed: 32'], axis=1)
-        # TODO: Add data cleaning, outliers
+        df = self.feature_extraction(df)
+        # df = self.outlier_removal(df)
         self.df = df
+
+    @staticmethod
+    def feature_extraction(df):
+        df = df.drop(['radius_se', 'texture_se', 'perimeter_se', 'area_se', 'smoothness_se',
+                      'compactness_se', 'concavity_se', 'concave points_se', 'symmetry_se',
+                      'fractal_dimension_se'], axis=1)
+        return df
+
+    def outlier_removal(self, df):
+        df = df[np.abs(df.Data-df.Data.mean()) <= (3*df.Data.std())]
+        return df
 
     def train_test_split(self):
         y = self.df['diagnosis']
